@@ -4,3 +4,9 @@
   tasks:
     - name: Ping Test
       ping:
+    - name: file create
+      file:
+        path: "./devops_server.txt"
+        state: touch
+    - name: Execute a date command
+      command: date

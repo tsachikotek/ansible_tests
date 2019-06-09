@@ -7,6 +7,9 @@ localhost ansible_connection=local
 [app]
 10.110.100.18 ansible_connection=ssh ansible_ssh_pass=root12
 
+[app2]
+10.110.100.18 ansible_connection=ssh ansible_ssh_pass=root12
+
 [db]
 localhost
 

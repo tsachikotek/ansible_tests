@@ -65,10 +65,10 @@
             src: files/SyslogLoggerPlugin.xml
             dest:  /var/jenkins_home/org.jenkinsci.plugins.sysloglogger.SyslogLoggerPlugin.xml
 
-        - name: copy checkmarx configuration
-          copy:
-            src: files/com.checkmarx.jenkins.CxScanBuilder.xml
-            dest:  /var/jenkins_home/com.checkmarx.jenkins.CxScanBuilder.xml
+        # - name: copy checkmarx configuration
+        #   copy:
+        #     src: files/com.checkmarx.jenkins.CxScanBuilder.xml
+        #     dest:  /var/jenkins_home/com.checkmarx.jenkins.CxScanBuilder.xml
 
         - name: copy userContent directory with css files
           copy:
@@ -106,7 +106,7 @@
         - name: create docker container
           docker_container:
             name:  jenkins-master
-            image: docker-virtual/allot-jenkins-master:2.164.3
+            image: jenkins/jenkins:2.164.3
             dns_search_domains:
                - ALLOT.LOCAL
                - rdlab.local

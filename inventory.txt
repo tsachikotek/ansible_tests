@@ -1,19 +1,27 @@
-[local]
-localhost ansible_connection=local
+### dynamic host file, need to pass the ip for ansible_host recived from GetEaas
 
-[lb]
-10.110.4.25 ansible_ssh_pass=root12
+[dynamichost]
+"{{ansible_host}}"
 
-[app]
-10.110.100.18 ansible_connection=ssh ansible_ssh_pass=root12
+[dynamichost-win]
+'{{ansible_host_win}}'
 
-[app2]
-10.110.100.18 ansible_connection=ssh ansible_ssh_pass=root12
-
-[db]
+[localhost]
 localhost
 
-[prod:children]
-lb
-app
-db
+[dynamichost:vars]
+ansible_connection=ssh
+ansible_ssh_user=root
+ansible_ssh_pass=root12
+
+[dynamichost-win:vars]
+ansible_user=administrator
+ansible_password=bagabu1!
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_transport = ssl
+
+[jenkinshosts:vars]
+ansible_connection=ssh
+ansible_ssh_user=root
+ansible_ssh_pass=root12

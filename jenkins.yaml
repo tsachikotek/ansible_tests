@@ -1,0 +1,461 @@
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    projectMatrix:
+      permissions:
+      - "Agent/Build:devops_svc_jenkins1"
+      - "Agent/Configure:devops_svc_jenkins1"
+      - "Agent/Connect:devops_svc_jenkins1"
+      - "Agent/Create:devops_svc_jenkins1"
+      - "Agent/Delete:devops_svc_jenkins1"
+      - "Agent/Disconnect:devops_svc_jenkins1"
+      - "Job/Build:authenticated"
+      - "Job/Cancel:authenticated"
+      - "Job/Configure:authenticated"
+      - "Job/Create:authenticated"
+      - "Job/Delete:authenticated"
+      - "Job/Discover:authenticated"
+      - "Job/Move:authenticated"
+      - "Job/Read:anonymous"
+      - "Job/Read:authenticated"
+      - "Job/Workspace:authenticated"
+      - "Overall/Administer:devops-automation"
+      - "Overall/Administer:devops-cd"
+      - "Overall/Administer:devops-ci"
+      - "Overall/Administer:devops-lead"
+      - "Overall/Read:anonymous"
+      - "Overall/Read:authenticated"
+      - "Run/Delete:authenticated"
+      - "Run/Replay:authenticated"
+      - "Run/Update:authenticated"
+      - "View/Configure:authenticated"
+      - "View/Create:authenticated"
+      - "View/Delete:authenticated"
+      - "View/Read:authenticated"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "ARTDOCKER_REGISTRY"
+        value: "artifactory.rdlab.local"
+      - key: "VCD_ORG"
+        value: "VCD_ORG_VAR"
+  markupFormatter:
+    rawHtml:
+      disableSyntaxHighlighting: false
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 10
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: false
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    ldap:
+      configurations:
+      - groupSearchBase: "ou=Groups,ou=Allot"
+        groupSearchFilter: "(objectClass=group)"
+        inhibitInferRootDN: false
+        managerDN: "devops_svc_jenkins1"
+        managerPasswordSecret: "XzWdUh4akPCG1cynPuxL"
+        rootDN: "dc=allot,dc=local"
+        server: "ldap://pluto.allot.local:389"
+        userSearch: "sAMAccountName={0}"
+        userSearchBase: "ou=Allot"
+      disableMailAddressResolver: false
+      disableRolePrefixing: true
+      groupIdStrategy: "caseInsensitive"
+      userIdStrategy: "caseInsensitive"
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - basicSSHUserPrivateKey:
+          scope: GLOBAL
+          id: "netonomy-ssh-gateway-keyH"
+          username: "netonomy"
+          passphrase: "" #Doable, but not recommended
+          description: "netonomy-ssh-gateway-key"
+          privateKeySource:
+            directEntry:
+              privateKey: |
+                -----BEGIN RSA PRIVATE KEY-----
+                MIIEowIBAAKCAQEApymr0HceQjzmaGU7Nw3PUAPnhga/aWqVdmU+nSqQBwWkf10b
+                ZfwAhBZ3b3YpfbaVijQYBRjobkUKZMnxAO7PtteRh25iS7kwMaUyiE3a0SI9ZiRF
+                ot62NwqtMdWpGKmgViHzTeAUvelTX2zTnyjbTdbb+/4NatPWzRPqPacCXx4vDMdN
+                o0RuWt8bFRqmuXU1j8wqsKR1WaOotb9eSOp7yNGa4W1mkV+wvbJ+lWF163Ukyeys
+                t67xWGmucjP1JQGSp9LpAPpD87MKKxbFnDSgiS5d+y6HFRe8vcNRHgKpSC7p1pQ1
+                DmTUdhRO3sMIP3cGYV9tDq5mitxdUEDl/xt/1wIDAQABAoIBABhyD548zUACh+9c
+                Xnx+mIKrD4CaHAPeglz+EVoKj2V3fcbiZs9TOwAWCQFT1l18BgJf++NC8Tqu/gYf
+                Qg9Q3S9v9uhHTDimrFWWQv2L5SQQTcpSI5zd1OfXt9xB0qi4pany7RHGY0IijP63
+                e3sbDncjpKgFTxEASblT4D2D3uTp2I1GbFEnFHNiM+1Hv0YhAL5GMJUNwyuurEss
+                Xg2HGUXdDA/aIN0czKzQIfd3plz6rCebumrdbgmlXGvE+V0Fx04/Is/k7m9lUa0u
+                L8Bfrn0l8d+FgCE2VZX9yWBxo5bP/vblfYMPwAzDc8muuUXNPPmeBxJWHQ3WUoYr
+                dbs9uwECgYEA1h5DKPf2M9iX8CfYDLvXnYE5lXaNv7WcqIvHwCJCfMVxW974AKvQ
+                RnlzQVnAyoHWrNKZZtYtJz4DdZiIEvJlYVvPbAD8U6gLbehMDIJSjZhs7ZhDWMUw
+                OqZdKkiFV7tK/otF9HuY8l3EbUJa2BzsbVBDFxXLcqSQ+CTdUXiKu68CgYEAx9wq
+                kJf7mEC2F0f65Na3ewOz8vMwIfFVbOHvrbMgVdotw5R085fW9A2gttU6KBVlz4ST
+                wMo4CuAvWwKpnA3g4o07BO6woK/9DrtRAIMIkYeAgOh9x/0/XdzCDhfdzGjlDASr
+                TZf/g09Zsj+ZQfbGW1dVlhG/7IdTgXhe/Q3zwFkCgYBpPa6c8GOe0BK+A5d5ispL
+                rDx1bjP1ynoZjbq8gRpU4Wb6VPlouwo/2WoA8PCFmJO/ljO4DAVdiGmC31nilimm
+                VM36s/FR3QLhHpBihZu15PmFPpW7iBBQg3y/T63alUAjJKlZpXZjihsF6Ntl5bF/
+                eTfAnQHGc4SdsuDlLm5iGQKBgQCMS7Qhfl7h+QMaArBPtZ5lHytR736pRRUXct7i
+                Cy02twqLEYqreLou5eYckj/Z5XNrogBqREnk8IytkYfogSGNR2DXzIp2sjOtBLcO
+                6ey44+rEEvBA1DiINjCO3hgXpsaqkhiCRqHZ1nj7lIOL96Q0eHEfAGS+sBxhdVMQ
+                xpuGOQKBgES+wUbSS93qywO01DHlN+wrjekuqvT0NpE/J0u8UbFDerSzK5c95QWx
+                j7lBh+vx0+XtMEYOfRDkaTy+FjTuow5G4DzejS/Lzuw5xPlIY3cVqgFFQq/J1U9X
+                AQB2sFpsyDUbvX+4umAUUYifnJ4eGyTH1CpOtVXy2DocPwUU2AGS
+                -----END RSA PRIVATE KEY-----
+      - usernamePassword:
+          description: "svc_artifactory"
+          id: "svc_artifactory"
+          password: "XzWdUh4akPCG1cynPuxL"
+          scope: GLOBAL
+          username: "devops_svc_jenkins1"
+      - usernamePassword:
+          description: "svc_bitbucket"
+          id: "svc_bitbucket"
+          password: "XzWdUh4akPCG1cynPuxL"
+          scope: GLOBAL
+          username: "devops_svc_jenkins1"
+      - usernamePassword:
+          description: "svc_api"
+          id: "svc_api"
+          password: "XzWdUh4akPCG1cynPuxL"
+          scope: GLOBAL
+          username: "devops_svc_jenkins1"
+      - usernamePassword:
+          description: "svc_checkmarx"
+          id: "svc_checkmarx"
+          password: "XzWdUh4akPCG1cynPuxL"
+          scope: GLOBAL
+          username: "allot\\devops_svc_jenkins1"
+      - usernamePassword:
+          description: "jenkins_ci"
+          id: "jenkins_ci"
+          password: "jenkins_ci1!"
+          scope: GLOBAL
+          username: "jenkins_ci"
+      - usernamePassword:
+          description: "ro_guest"
+          id: "ro_guest"
+          password: "ro_guest"
+          scope: GLOBAL
+          username: "ro_guest"
+      - usernamePassword:
+          description: "allot"
+          id: "allot_ci"
+          password: "allot"
+          scope: GLOBAL
+          username: "admin"
+      - usernamePassword:
+          description: "EaaS User"
+          id: "svc_geteaas"
+          password: "Aa123123!"
+          scope: GLOBAL
+          username: "svc_geteaas"
+      - usernamePassword:
+          description: "Credentials for AOS typeB machines"
+          id: "root"
+          password: "bagabu"
+          scope: GLOBAL
+          username: "root"
+      - usernamePassword:
+          description: "Credentials for nis reset password"
+          id: "nis_user"
+          password: "whatajenkins!"
+          scope: GLOBAL
+          username: "jenkins"
+      - usernamePassword:
+          description: "Credentials for nx build"
+          id: "nxbuild"
+          password: "nxbuild"
+          scope: GLOBAL
+          username: "nxbuild"
+      - usernamePassword:
+          description: "Credentials for aos eaas"
+          id: "aos_eaas"
+          password: "sysadmin"
+          scope: GLOBAL
+          username: "sysadmin"
+      - usernamePassword:
+          description: "Credentials for subversion ssbu"
+          id: "ssbu-hudson"
+          password: "gfh325gm"
+          scope: GLOBAL
+          username: "hudson"
+      - usernamePassword:
+          description: "Credentials for home secure"
+          id: "cyberiot_secret"
+          password: "3=LKh#oi8o3Ytg-hu3G3t^M"
+          scope: GLOBAL
+          username: "x-cyb3riot-super-secret"
+      - gitLabApiTokenImpl:
+          apiToken: "o3km_peeNi_zz3EyxieY"
+          description: "jenkins_ci_API"
+          id: "jenkins_ci_API"
+          scope: GLOBAL
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  downloadSettings:
+    useBrowser: false
+  remotingCLI:
+    enabled: false
+  sSHD:
+    port: -1
+unclassified:
+  mailer:
+    adminAddress: JENKINS_HOSTNAME@rdlab.local
+    replyToAddress: do-not-reply@rdlab.local
+    smtpHost: 10.110.3.16
+    smtpPort: 25
+    charset: UTF-8
+    useSsl: false
+  location:
+    url: "http://JENKINS_HOSTNAME.rdlab.local"
+  simple-theme-plugin:
+    elements:
+    - cssUrl:
+        url: "http://JENKINS_IP/userContent/layout/JENKINS_COLOR.css"
+  sonarGlobalConfiguration:
+    installations:
+    - name: "SonarQube"
+      serverUrl: "http://sonarqube:9000"
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: false
+  ansiColorBuildWrapper:
+    colorMaps:
+    - black: "#000000"
+      blackB: "#4C4C4C"
+      blue: "#1E90FF"
+      blueB: "#4682B4"
+      cyan: "#00CDCD"
+      cyanB: "#00FFFF"
+      green: "#00CD00"
+      greenB: "#00FF00"
+      magenta: "#CD00CD"
+      magentaB: "#FF00FF"
+      name: "xterm"
+      red: "#CD0000"
+      redB: "#FF0000"
+      white: "#E5E5E5"
+      whiteB: "#FFFFFF"
+      yellow: "#CDCD00"
+      yellowB: "#FFFF00"
+    - black: "#000000"
+      blackB: "#555555"
+      blue: "#0000AA"
+      blueB: "#5555FF"
+      cyan: "#00AAAA"
+      cyanB: "#55FFFF"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#00AA00"
+      greenB: "#55FF55"
+      magenta: "#AA00AA"
+      magentaB: "#FF55FF"
+      name: "vga"
+      red: "#AA0000"
+      redB: "#FF5555"
+      white: "#AAAAAA"
+      whiteB: "#FFFFFF"
+      yellow: "#AA5500"
+      yellowB: "#FFFF55"
+    - black: "black"
+      blackB: "black"
+      blue: "blue"
+      blueB: "blue"
+      cyan: "cyan"
+      cyanB: "cyan"
+      green: "green"
+      greenB: "green"
+      magenta: "magenta"
+      magentaB: "magenta"
+      name: "css"
+      red: "red"
+      redB: "red"
+      white: "white"
+      whiteB: "white"
+      yellow: "yellow"
+      yellowB: "yellow"
+    - black: "#2E3436"
+      blackB: "#2E3436"
+      blue: "#3465A4"
+      blueB: "#3465A4"
+      cyan: "#06989A"
+      cyanB: "#06989A"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#4E9A06"
+      greenB: "#4E9A06"
+      magenta: "#75507B"
+      magentaB: "#75507B"
+      name: "gnome-terminal"
+      red: "#CC0000"
+      redB: "#CC0000"
+      white: "#D3D7CF"
+      whiteB: "#D3D7CF"
+      yellow: "#C4A000"
+      yellowB: "#C4A000"
+  artifactorybuilder:
+    useCredentialsPlugin: true
+    artifactoryServers:
+    - serverId: artifactory-server
+      artifactoryUrl: http://artifactory.rdlab.local/artifactory
+      deployerCredentialsConfig:
+        credentialsId: 'svc_artifactory'
+    - serverId: automations_artifactory
+      artifactoryUrl: http://artifactory.rdlab.local/artifactory
+      deployerCredentialsConfig:
+        credentialsId: 'svc_artifactory'
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketServerEndpoint:
+        callCanMerge: false
+        displayName: "Bitbucket"
+        manageHooks: false
+        serverUrl: "http://bitbucket.rdlab.local"
+  gitLabConnectionConfig:
+    connections:
+    - apiTokenId: "jenkins_ci_API"
+      clientBuilderId: "v3"
+      connectionTimeout: 10
+      ignoreCertificateErrors: true
+      name: "nmsgitlab"
+      readTimeout: 10
+      url: "http://nmsgitlab.allot.com"
+  gitSCM:
+    createAccountBasedOnEmail: false
+  globalLibraries:
+    libraries:
+    - defaultVersion: "master"
+      name: "scm-lib"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "985805f7-2072-4abb-8b9c-d0b840381c06"
+              remote: "http://bitbucket.rdlab.local/scm/ci/scm-libs.git"
+    - defaultVersion: "master"
+      name: "ci-libs"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/ci/ci-libs.git"
+    - defaultVersion: "master"
+      name: "artifactory-lib"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "3cddd0bc-8103-4bb0-8e4e-277b409fa93d"
+              remote: "http://bitbucket.rdlab.local/scm/ci/artifactory-lib.git"
+    - defaultVersion: "master"
+      name: "utils-lib"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/ci/utils-lib.git"
+    - defaultVersion: "master"
+      name: "report-lib"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/ci/report-lib.git"
+    - defaultVersion: "master"
+      name: "eaas-lib"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/ci/eaas-libs.git"
+    - defaultVersion: "master"
+      name: "pipelines"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/ci/pipelines.git"
+    - defaultVersion: "Dev"
+      name: "automation-api"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/aut/automationAPI.git"
+    - defaultVersion: "master"
+      name: "ci_builds"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "jenkins_ci"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://nmsgitlab.allot.com/System/CI_Builds.git"
+    - defaultVersion: "master"
+      name: "build-lib"
+      retriever:
+        modernSCM:
+          scm:
+            git:
+              credentialsId: "svc_bitbucket"
+              id: "23212f81-96bf-40d5-895d-dea235e100cb"
+              remote: "http://bitbucket.rdlab.local/scm/ci/build-lib.git"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  jdk:
+    defaultProperties:
+    - installSource:
+        installers:
+        - jdkInstaller:
+            acceptLicense: false
+  sonarRunnerInstallation:
+    installations:
+    - name: "SonarQube"
+      properties:
+      - installSource:
+          installers:
+          - sonarRunnerInstaller:
+              id: "3.3.0.1492"

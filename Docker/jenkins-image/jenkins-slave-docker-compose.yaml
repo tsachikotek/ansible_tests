@@ -1,0 +1,7 @@
+jenkins_slave:
+  image: jenkinsci/jnlp-slave
+  container_name: jenkins_slave_1
+  command: -url http://build.cambio.se 9342fb2b08caeb4e6643afa29609e346a24a08331ab0f38cc98733de0d2cf284 jnlp-docker-slave
+  restart: always
+  volumes:
+     - /mnt/jenkins_slave:/var/jenkins_home

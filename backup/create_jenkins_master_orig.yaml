@@ -8,26 +8,26 @@
         - hostname:
             name: localhost
 
-        - name: create  diretory for mount netapp
-          file:
-            path: /tmp/mount1
-            state: directory
-            owner: root
-            group: root
-
-        - name: mount netapp
-          mount:
-            path: /tmp/mount1
-            src: 10.110.10.27:/nc1_n2_jenkins_home/
-            fstype: nfs
-            state: mounted
-
-        - name: create mount diretory
-          file:
-            path: /tmp/mount1/{{jenkins_hostname}}
-            state: directory
-            owner: root
-            group: root
+        # - name: create  diretory for mount netapp
+        #   file:
+        #     path: /tmp/mount1
+        #     state: directory
+        #     owner: root
+        #     group: root
+        #
+        # - name: mount netapp
+        #   mount:
+        #     path: /tmp/mount1
+        #     src: 10.110.10.27:/nc1_n2_jenkins_home/
+        #     fstype: nfs
+        #     state: mounted
+        #
+        # - name: create mount diretory
+        #   file:
+        #     path: /tmp/mount1/{{jenkins_hostname}}
+        #     state: directory
+        #     owner: root
+        #     group: root
 
         - name: create jenkins home diretory
           file:
@@ -36,12 +36,12 @@
             owner: root
             group: root
 
-        - name: mount netapp
-          mount:
-             path: /var/jenkins_home
-             src: 10.110.10.27:/nc1_n2_jenkins_home/{{jenkins_hostname}}
-             fstype: nfs
-             state: mounted
+        # - name: mount netapp
+        #   mount:
+        #     path: /var/jenkins_home
+        #     src: 10.110.10.27:/nc1_n2_jenkins_home/{{jenkins_hostname}}
+        #     fstype: nfs
+        #     state: mounted
 
         - name: create jenkins casc_config diretory
           file:
@@ -100,13 +100,13 @@
           replace:
             path: /var/jenkins_home/casc_config/jenkins.yaml
             regexp: 'JENKINS_COLOR'
-            replace: "blue"
+            replace: "red"
             backup: yes
 
         - name: create docker container
           docker_container:
             name:  jenkins-master
-            image: jenkins/jenkins:2.164.3
+            image: kotek:01
             dns_search_domains:
                - ALLOT.LOCAL
                - rdlab.local
@@ -126,5 +126,5 @@
               JENKINS_HOSTNAME: "10.110.4.25"
             volumes:
               - "/var/jenkins_home:/var/jenkins_home"
-            user: 0:0
+            # user: 0:0
             restart_policy: always

@@ -8,26 +8,26 @@
         - hostname:
             name: localhost
 
-        - name: create  diretory for mount netapp
-          file:
-            path: /tmp/mount1
-            state: directory
-            owner: root
-            group: root
+        # - name: create  diretory for mount netapp
+        #   file:
+        #     path: /tmp/mount1
+        #     state: directory
+        #     owner: root
+        #     group: root
 
-        - name: mount netapp
-          mount:
-            path: /tmp/mount1
-            src: 10.110.10.27:/nc1_n2_jenkins_home/
-            fstype: nfs
-            state: mounted
+        # - name: mount netapp
+        #   mount:
+        #     path: /tmp/mount1
+        #     src: 10.110.10.27:/nc1_n2_jenkins_home/
+        #     fstype: nfs
+        #     state: mounted
 
-        - name: create mount diretory
-          file:
-            path: /tmp/mount1/{{jenkins_hostname}}
-            state: directory
-            owner: root
-            group: root
+        # - name: create mount diretory
+        #   file:
+        #     path: /tmp/mount1/{{jenkins_hostname}}
+        #     state: directory
+        #     owner: root
+        #     group: root
 
         - name: create jenkins home diretory
           file:
@@ -36,12 +36,12 @@
             owner: root
             group: root
 
-        - name: mount netapp
-          mount:
-             path: /var/jenkins_home
-             src: 10.110.10.27:/nc1_n2_jenkins_home/{{jenkins_hostname}}
-             fstype: nfs
-             state: mounted
+        # - name: mount netapp
+        #   mount:
+        #      path: /var/jenkins_home
+        #      src: 10.110.10.27:/nc1_n2_jenkins_home/{{jenkins_hostname}}
+        #      fstype: nfs
+        #      state: mounted
 
         - name: create jenkins casc_config diretory
           file:
@@ -75,6 +75,19 @@
             src: files/userContent
             dest:  /var/jenkins_home
 
+        # - name: Remove Security
+        #   xml:
+        #     path: /var/jenkins_home/config.xml
+        #     xpath: hudson/useSecurity
+        #     value: false
+
+        - name: Remove Security
+          replace:
+            path: /var/jenkins_home/config.xml
+            regexp: '<useSecurity>true</useSecurity>'
+            replace: "<useSecurity>false</useSecurity>"
+            backup: yes
+
         - name: configure hostname
           replace:
             path: /var/jenkins_home/org.jenkinsci.plugins.sysloglogger.SyslogLoggerPlugin.xml
@@ -106,7 +119,7 @@
         - name: create docker container
           docker_container:
             name:  jenkins-master
-            image: jenkins/jenkins:2.164.3
+            image: kotek:01
             dns_search_domains:
                - ALLOT.LOCAL
                - rdlab.local

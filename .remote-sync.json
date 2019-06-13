@@ -2,7 +2,7 @@
   "logger": {
     "title": "Remote Sync"
   },
-  "uploadOnSave": false,
+  "uploadOnSave": true,
   "useAtomicWrites": false,
   "deleteLocal": false,
   "hostname": "10.110.4.25",

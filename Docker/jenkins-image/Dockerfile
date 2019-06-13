@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:2.164.3
+FROM jenkinsci/blueocean:latest
 COPY plugins.txt plugins.txt
 COPY install-plugins.sh install-plugins.sh
 RUN install-plugins.sh < plugins.txt
-USER root
-RUN unlink /etc/localtime
-RUN ln -s /usr/share/zoneinfo/Asia/Jerusalem /etc/localtime
+
+ENV JAVA_OPTS= "-Xmx2048m -XX:MaxPermSize=512m  -DsessionTimeout=10080 -Dhudson.model.DirectoryBrowserSupport.CSP=\"img-src 'self'; style-src 'self' 'unsafe-inline';\" -Djenkins.install.runSetupWizard=false"

@@ -1,0 +1,25 @@
+services:
+  master:
+    image: jenkins/jenkins:2.164.3
+    container_name: jenkins_master
+    restart: always
+    ports:
+     - "80:8080"
+     - "8080:8080"
+     - "50000:50000"
+    environment:
+    - JAVA_OPTS=-Xmx2048m
+    volumes:
+      - ./jenkins-master:/var/jenkins_home
+
+worker:
+    image: eeacms/jenkins-slave
+    environment:
+      JAVA_OPTS: "-Xmx2048m"
+      JENKINS_MASTER: "http://master:8080"
+      JENKINS_NAME: "worker"
+      JENKINS_USER: "tkotek"
+      JENKINS_PASS: "password"
+      JENKINS_RETRY: "10"
+    volumes:
+      - ./jenkins-worker:/var/jenkins_home/worker

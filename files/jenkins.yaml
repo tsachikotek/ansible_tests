@@ -1,39 +1,7 @@
 jenkins:
   agentProtocols:
   - "JNLP4-connect"
-  - "Ping"
-  authorizationStrategy:
-    projectMatrix:
-      permissions:
-      - "Agent/Build:devops_svc_jenkins1"
-      - "Agent/Configure:devops_svc_jenkins1"
-      - "Agent/Connect:devops_svc_jenkins1"
-      - "Agent/Create:devops_svc_jenkins1"
-      - "Agent/Delete:devops_svc_jenkins1"
-      - "Agent/Disconnect:devops_svc_jenkins1"
-      - "Job/Build:authenticated"
-      - "Job/Cancel:authenticated"
-      - "Job/Configure:authenticated"
-      - "Job/Create:authenticated"
-      - "Job/Delete:authenticated"
-      - "Job/Discover:authenticated"
-      - "Job/Move:authenticated"
-      - "Job/Read:anonymous"
-      - "Job/Read:authenticated"
-      - "Job/Workspace:authenticated"
-      - "Overall/Administer:devops-automation"
-      - "Overall/Administer:devops-cd"
-      - "Overall/Administer:devops-ci"
-      - "Overall/Administer:devops-lead"
-      - "Overall/Read:anonymous"
-      - "Overall/Read:authenticated"
-      - "Run/Delete:authenticated"
-      - "Run/Replay:authenticated"
-      - "Run/Update:authenticated"
-      - "View/Configure:authenticated"
-      - "View/Create:authenticated"
-      - "View/Delete:authenticated"
-      - "View/Read:authenticated"
+  - "Ping"  
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false

@@ -9,7 +9,7 @@
   tasks:
     - name: Write the new ec2 instance host key to known hosts
       connection: local
-      shell: "ssh-keyscan -H {{ ansible_ssh_host }} >> ~/.ssh/id_rsa"
+      shell: "ssh-keyscan -H {{ ansible_ssh_host }} >> ~/.ssh/known_hosts"
       register: check_ssh
       ignore_errors: True
     - name: copy id_rsa.pub to all nodes

@@ -1,30 +1,20 @@
 - name: copy all ssh key to Servers a
-  hosts: all
+  hosts: clients
+  remote_user: root
   gather_facts: no
   become: true
+  become_method: su
 
   tasks:
-    - name: Create ssh dir
+    - name: Create Authentication SSH-Kegen Keys on – (ansible_host)
+      shell: yes y | ssh-keygen -q -t rsa -N "" -f /root/.ssh/id_rsa
+      delegate_to: localhost
+
+    - name: Create .ssh Directory on – (ansible_nodes)
       file:
         path: /root/.ssh
         mode: 700
         state: directory
-      delegate_to: localhost
-
-    - name: (install) make ssh-key for root to all nodes
-      shell: if ! [ -f /root/.ssh/id_rsa ] ; then yes y | ssh-keygen -q -t rsa -N "" -f /root/.ssh/id_rsa ; fi
-      delegate_to: localhost
-
-    - name: Create ssh dir
-      file:
-        path: /root/.ssh
-        mode: 700
-        state: directory
-
-    - name: accept new ssh fingerprints
-      shell: |
-        ssh-keyscan -H {{ item }} >> ~/.ssh/known_hosts
-      with_items: "{{ groups['clients'] }}"
 
     - name: Read ssh key
       slurp:
@@ -43,5 +33,50 @@
         line: "{{ ssh_key.content }}"
         create: yes
         state: present
-        mode: 600
+        mode: 640
         path: /root/.ssh/authorized_keys
+
+    # - name: copy id_rsa.pub to all nodes
+    #   connection: local
+    #   shell: sshpass -p root12 ssh-copy-id -i /root/.ssh/id_rsa root@10.110.100.18
+    #   ignore_errors: True
+
+    - name: command ssh-keyscan {{ ansible_ssh_host }} > known_hosts
+      #when: check_ssh is failed
+      local_action: command ssh-keyscan {{ ansible_ssh_host }} > known_hosts
+      ignore_errors: True
+      delegate_to: localhost
+
+    # - name: "CHMOD: known_hosts #1"
+    #   file:
+    #     path: /root/.ssh/known_hosts
+    #     mode: 640
+    #     delegate_to: localhost
+    #   ignore_errors: True
+
+    - name: "CHMOD: known_hosts #2"
+      file:
+        path: /root/.ssh/known_hosts
+        mode: 640
+      delegate_to: localhost
+
+    # - name: "CHMOD: id_rsa.pub"
+    #   file:
+    #     path: /root/.ssh/id_rsa.pub
+    #     mode: 640
+
+    - name: "CHMOD: authorized_keys"
+      file:
+        path: /root/.ssh/authorized_keys
+        mode: 640
+
+    - name: Create Authentication SSH-Kegen Keys on – (ansible_host)
+      shell: yes y | sshpass -p root12  ssh-copy-id -i /root/.ssh/id_rsa.pub root@{{ ansible_ssh_host }}
+      delegate_to: localhost
+
+    - name: chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+      shell: chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+
+    # - name: copy id_rsa.pub to all nodes
+    #   local_action: command sshpass -p root12  ssh-copy-id -i /root/.ssh/id_rsa.pub root@{{ ansible_ssh_host }}
+    #   ignore_errors: True

@@ -1,0 +1,59 @@
+- name: copy all ssh key to Servers a
+  hosts: clients
+  gather_facts: no
+  become: true
+  become_method: su
+
+  tasks:
+    - name: Create ssh dir
+      file:
+        path: /root/.ssh
+        mode: 700
+        state: directory
+      delegate_to: localhost
+
+    - name: (install) make ssh-key for root to all nodes
+      shell: if ! [ -f /root/.ssh/id_rsa ] ; then yes y | ssh-keygen -q -t rsa -N "" -f /root/.ssh/id_rsa ; fi
+      delegate_to: localhost
+
+    - name: Create ssh dir
+      file:
+        path: /root/.ssh
+        mode: 700
+        state: directory
+
+    - name: accept new ssh fingerprints
+      shell: |
+        ssh-keyscan -H {{ item }} >> ~/.ssh/known_hosts
+      with_items: "{{ groups['clients'] }}"
+
+    - name: Read ssh key
+      slurp:
+        src: /root/.ssh/id_rsa.pub
+      register: ssh_key
+      delegate_to: localhost
+
+    - name: Read ssh private key
+      slurp:
+        src: /root/.ssh/id_rsa
+      register: ssh_private_key
+      delegate_to: localhost
+
+    - name: copy id_rsa.pub to all nodes
+      lineinfile:
+        line: "{{ ssh_key.content }}"
+        create: yes
+        state: present
+        mode: 600
+        path: /root/.ssh/authorized_keys
+
+    - name: Write the new ec2 instance host key to known hosts
+      connection: local
+      shell: "ssh-keyscan -H {{ ansible_ssh_host }} >> ~/.ssh/known_hosts"
+      register: check_ssh
+      ignore_errors: True
+    - name: copy id_rsa.pub to all nodes
+      #when: check_ssh is failed
+      connection: local
+      shell: "sshpass -p root12  ssh-copy-id -i /root/.ssh/id_rsa root@{{ ansible_ssh_host }}"
+      ignore_errors: True

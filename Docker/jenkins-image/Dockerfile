@@ -1,5 +1,4 @@
 FROM jenkins/jenkins:2.164.3
-FROM jenkinsci/blueocean:latest
 COPY plugins.txt plugins.txt
 COPY install-plugins.sh install-plugins.sh
 RUN install-plugins.sh < plugins.txt

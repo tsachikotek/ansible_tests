@@ -6,6 +6,12 @@
   become_method: su
 
   tasks:
+    - name: docker_login
+      docker_login:
+        username: tsachikotek
+        password: 28929537
+        email: tsachikotek@gmail.com
+
     - name: Build Docker image from Dockerfile
       docker_image:
         name: jenkins_docker:01
@@ -15,6 +21,6 @@
     - name: Tag and push to docker hub
       docker_image:
         name: jenkins_docker:01
-        repository: tsachikotek/jenkins_docker:02
+        repository: docker.io/tsachikotek/jenkins_docker:02
         push: yes
         source: local

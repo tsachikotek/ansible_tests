@@ -1,0 +1,12 @@
+- name: login to DockerHub remote registry using your account
+  gather_facts: No
+  hosts: all
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: docker_login
+      docker_login:
+        username: tsachikotek
+        password: 28929537
+        email: tsachikotek@gmail.com

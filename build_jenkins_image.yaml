@@ -1,0 +1,20 @@
+- name: Build Docker image from Dockerfile
+  hosts: localhost
+  remote_user: root
+  gather_facts: no
+  become: true
+  become_method: su
+
+  tasks:
+    - name: Build Docker image from Dockerfile
+      docker_image:
+        name: jenkins_docker:01
+        path: ./Docker/jenkins-image/
+        state: build
+
+    - name: Tag and push to docker hub
+      docker_image:
+        name: jenkins_docker:01
+        repository: tsachikotek/jenkins_docker:02
+        push: yes
+        source: local

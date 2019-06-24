@@ -1,7 +1,6 @@
----
 - name: create docker container
   gather_facts: No
-  hosts: localhost
+  hosts: all
   become: yes
   become_user: root
   tasks:
@@ -55,6 +54,11 @@
             src: files/jenkins.yaml
             dest:  /var/jenkins_home/casc_config/jenkins.yaml
 
+        - name: copy jenkins configuration files
+          copy:
+            src: files/config.xml
+            dest:  /var/jenkins_home/config.xml
+
         - name: copy Pipeline Model Definition configuration
           copy:
             src: files/pipeline-model-definition.xml
@@ -92,21 +96,21 @@
           replace:
             path: /var/jenkins_home/org.jenkinsci.plugins.sysloglogger.SyslogLoggerPlugin.xml
             regexp: 'JENKINS_HOSTNAME'
-            replace: "10.110.4.25"
+            replace: "{{ ansible_ssh_host }}"
             backup: yes
 
         - name: configure hostname
           replace:
             path: /var/jenkins_home/casc_config/jenkins.yaml
             regexp: 'JENKINS_HOSTNAME'
-            replace: "10.110.4.25"
+            replace: "{{ ansible_ssh_host }}"
             backup: yes
 
         - name: configure ip
           replace:
             path: /var/jenkins_home/casc_config/jenkins.yaml
             regexp: 'JENKINS_IP'
-            replace: "10.110.4.25"
+            replace: "{{ ansible_ssh_host }}"
             backup: yes
 
         - name: configure color
@@ -119,7 +123,7 @@
         - name: create docker container
           docker_container:
             name:  jenkins-master
-            image: kotek:01
+            image: jenkins/jenkins:2.164.3
             dns_search_domains:
                - ALLOT.LOCAL
                - rdlab.local
@@ -136,7 +140,7 @@
               JAVA_OPTS: "-Xmx2048m -XX:MaxPermSize=512m  -DsessionTimeout=10080 -Dhudson.model.DirectoryBrowserSupport.CSP=\"img-src 'self'; style-src 'self' 'unsafe-inline';\" -Djenkins.install.runSetupWizard=false "
               #JAVA_OPTS: "-Xmx6144m -Xms512m -Djava.awt.headless=true -Djava.util.logging.config.file=/var/jenkins_home/log.properties  -Dhudson.model.ParametersAction.keepUndefinedParameters=true"
               CASC_JENKINS_CONFIG: "/var/jenkins_home/casc_config"
-              JENKINS_HOSTNAME: "10.110.4.25"
+              JENKINS_HOSTNAME: "{{ ansible_ssh_host }}"
             volumes:
               - "/var/jenkins_home:/var/jenkins_home"
             user: 0:0

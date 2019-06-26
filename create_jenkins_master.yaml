@@ -1,6 +1,6 @@
 - name: create docker container
   gather_facts: No
-  hosts: all
+  hosts: localhost
   become: yes
   become_user: root
   tasks:
@@ -123,7 +123,7 @@
         - name: create docker container
           docker_container:
             name:  jenkins-master
-            image: jenkins/jenkins:2.164.3
+            image: tsachikotek/jenkins_docker:02
             dns_search_domains:
                - ALLOT.LOCAL
                - rdlab.local

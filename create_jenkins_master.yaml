@@ -123,15 +123,9 @@
         - name: create docker container
           docker_container:
             name:  jenkins-master
-            image: tsachikotek/jenkins_docker:02
-            dns_search_domains:
-               - ALLOT.LOCAL
-               - rdlab.local
+            image: tsachikotek/jenkins_docker:02            
             dns_servers:
-               - 172.18.1.10
-               - 172.17.1.10
-               - 10.110.3.10
-               - 10.110.3.11
+               - 8.8.8.8               
             ports:
              - "80:8080"
              - "8080:8080"
